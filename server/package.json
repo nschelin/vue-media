@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon src/app.js --exec 'npm run lint  && node'",
+    "start": "npx nodemon src/server.js --exec 'npm run lint  && node'",
     "lint": "npx eslint **/*.js"
   },
   "author": "",
