@@ -17,3 +17,8 @@ selenium-debug.log
 
 # nedb files
 *.db
+
+# env files
+.env
+.env.local
+.env.*.local
