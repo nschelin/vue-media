@@ -34,15 +34,3 @@ async function deleteData() {
 	console.log('Done Deleting Data');
 	process.exit();
 }
-// async function deleteData() {
-// 	await Genre.remove();
-// 	// console.log('deleteData');
-// 	// Genre.deleteMany({}, err => {
-// 	// 	if (err) {
-// 	// 		console.log(err);
-// 	// 	}
-// 	// 	console.log('deleted');
-// 	// });
-// }
-
-// deleteData();
