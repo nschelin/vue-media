@@ -8,6 +8,7 @@ const http = require('http');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
 app.use(logger('dev'));
@@ -17,6 +18,19 @@ app.use(cors());
 
 const api = require('./api');
 app.use('/api', api);
+
+const dbOptions = {
+	useNewUrlParser: true
+};
+
+mongoose.connect(
+	process.env.DATABASE,
+	dbOptions,
+	err => {
+		if (err) throw err;
+		console.log('connected to Db');
+	}
+);
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
