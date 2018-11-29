@@ -8,5 +8,8 @@
 		"indent": [2, "tab"],
 		"semi": ["error", "always"],
 		"no-console": "off"
+	},
+	"parserOptions": {
+		"ecmaVersion": 2017
 	}
 }

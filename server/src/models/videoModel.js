@@ -1,8 +1,8 @@
-const options = require('./descriminatorKey');
+const MediaOptions = require('./options');
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const BaseSchema = require('./baseschema');
+const Media = require('./baseschema');
 
 const videoSchema = new Schema(
 	{
@@ -12,18 +12,18 @@ const videoSchema = new Schema(
 		genre: String, // SciFi, Drama, Comedy, etc.
 		videoFormat: String // VHS, Bluray, Digital, etc.
 	},
-	options
+	MediaOptions
 );
 
-const movieSchema = new Schema({}, options);
+const movieSchema = new Schema({}, MediaOptions);
 const tvShowSchema = new Schema(
 	{
 		season: Number
 	},
-	options
+	MediaOptions
 );
 
-const Video = BaseSchema.discriminator('Video', videoSchema);
+const Video = Media.discriminator('Video', videoSchema);
 const Movie = Video.discriminator('Movie', movieSchema);
 const TvShow = Video.discriminator('TvShow', tvShowSchema);
 

@@ -1,8 +1,7 @@
-const options = require('./descriminatorKey');
+const { MediaOptions } = require('./options');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const BaseSchema = require('./baseschema');
-
+const Media = require('./mediaBase.js');
 const musicSchema = new Schema(
 	{
 		desc: String,
@@ -15,7 +14,7 @@ const musicSchema = new Schema(
 		IsAlbum: Boolean,
 		IsSingleTrack: Boolean
 	},
-	options
+	MediaOptions
 );
 
-module.exports = BaseSchema.discriminator('Music', musicSchema);
+module.exports = Media.discriminator('Music', musicSchema);
