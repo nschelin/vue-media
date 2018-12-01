@@ -7,3 +7,10 @@ exports.list = async (req, res) => {
 		.sort({ title: 'asc' });
 	res.send(genres);
 };
+
+exports.update = async (req, res) => {
+	const genre = await Genre.findOneAndUpdate({ _id: req.params.id }, req.body, {
+		new: true // returns new, updated store instead of the old one
+	});
+	res.send(genre);
+};

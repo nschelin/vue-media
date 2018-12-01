@@ -1,23 +1,15 @@
 <template>
     <div>
-        <div v-for="g in genres" :key="g._id">
-            {{g.title}}
-            
-        </div>
+        <GenreList />
     </div>
 </template>
 
 <script>
-    import genreService from '@/services/genreService';
+    import GenreList from '@/components/GenreList';
     export default {
-        data() {
-            return {
-                genres: []
-            }
-        },
-        async created() {
-            const response = await genreService.getGenres();
-            this.genres = response.data;
+        name: 'genres',
+        components: {
+            GenreList
         }
     }
 </script>
