@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const http = require('http');
+const chalk = require('chalk');
 //const fs = require('fs');
 //const path = require('path');
 const logger = require('morgan');
@@ -25,7 +26,7 @@ mongoose.connect(
 	dbOptions,
 	err => {
 		if (err) throw err;
-		console.log('connected to Db');
+		console.log(chalk.cyan('Connected to Db'));
 	}
 );
 
@@ -36,6 +37,14 @@ app.use('/api', api);
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
+
+process.once('SIGHUP', () => {
+	console.log(chalk.red('Shutting down...'));
+	server.close();
+	mongoose.disconnect();
+	process.kill(process.pid, 'SIGHUP');
+});
+
 server.listen(PORT, () => {
-	console.log(`listening on ${PORT}...`);
+	console.log(chalk.cyan(`Server listening on ${PORT}...`));
 });

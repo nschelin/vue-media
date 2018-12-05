@@ -7,5 +7,7 @@ router.get('/', (req, res) => {
 
 router.get('/genres', genreController.list);
 router.put('/genre/:id', genreController.update);
+router.post('/genre', genreController.add);
+router.delete('/genre/:id', genreController.delete);
 
 module.exports = router;

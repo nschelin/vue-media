@@ -5,9 +5,11 @@
 </template>
 
 <script>
+    
     import GenreList from '@/components/GenreList';
     export default {
         name: 'genres',
+
         components: {
             GenreList
         }
