@@ -1,6 +1,57 @@
 <template>
     <div>
-        <div v-for="(g, index) in genres" :key="g._id">
+        <v-list>
+            <v-list-tile 
+                class="list-title"
+                v-for="(g, index) in genres" :key="g._id"
+                >
+                <template v-if="editIndex === index">
+                    <v-list-tile-content>
+                        <v-text-field label="Genre" color="white" v-model="g.title"></v-text-field>
+                    </v-list-tile-content>
+                    <v-list-tile-action style="margin-right: 5px;">
+                        <v-btn small outline color="blue" @click="updateGenre(g)">
+                            <span class="white-text">
+                                Save
+                            </span>
+                        </v-btn>
+                    </v-list-tile-action>
+                    
+                    <v-list-tile-action>
+                        <v-btn small outline color="red" @click="editIndex = -1">
+                            <span class="white-text">
+                                Cancel
+                            </span>
+                        </v-btn>
+                    </v-list-tile-action>
+                </template> 
+                <template v-else>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            {{ g.title }}
+                        </v-list-tile-title>
+                    </v-list-tile-content>
+
+                
+                    <v-list-tile-action style="margin-right: 5px;">
+                        <v-btn small outline color="blue" @click="editIndex = index">
+                            <span class="white-text">
+                                Edit
+                            </span>
+                        </v-btn>
+                    </v-list-tile-action>
+                    
+                    <v-list-tile-action>
+                        <v-btn small outline color="red" @click="deleteGenre(g)">
+                            <span class="white-text">
+                                Delete
+                            </span>
+                        </v-btn>
+                    </v-list-tile-action>
+                </template>
+            </v-list-tile>
+        </v-list>
+        <!-- <div v-for="(g, index) in genres" :key="g._id">
             <span v-if="editIndex === index">
                 <input type="text" v-model="g.title" />
                 <button type="button" @click="updateGenre(g)">Save</button>
@@ -11,8 +62,8 @@
                 <button type="button" @click="editIndex = index">Edit</button> 
                 <button type="button" @click="deleteGenre(g)">Delete</button>
             </span>
-        </div>
-        <GenreNew v-model="isAdded" />
+        </div> -->
+        <!-- <GenreNew v-model="isAdded" /> -->
     </div>
 </template>
 
@@ -67,6 +118,17 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .list-tile, 
+    .list-title {
+        height: 60px !important;
+    }
 
+    .list-title > .v-list__tile {
+        height: 60px !important;
+    }
+
+    .white-text {
+        color: white;
+    }
 </style>
