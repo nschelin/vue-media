@@ -51,6 +51,32 @@
                 </template>
             </v-list-tile>
         </v-list>
+        <v-btn fab absolute bottom right color="blue" slot="activator" @click="showDialog()">
+            <v-icon>add</v-icon>
+        </v-btn>
+
+        <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="500"
+            >       
+            <v-card>
+                <v-card-title primary-title>
+                    Add Genre
+                </v-card-title>
+                <!-- <GenreNew v-model="isAdded" /> -->
+                <v-container>
+                    <v-text-field ref="ng" label="Genre" color="white" v-model="newGenre" @keyup.enter="addGenre()"></v-text-field>
+                </v-container>
+                <v-card-actions>
+                    <div style>
+                        <v-btn color="blue" @click="addGenre()">Save</v-btn>
+                        <v-btn color="red" @click="dialog = false; newGenre = ''">Cancel</v-btn>
+                    </div>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        
         <!-- <div v-for="(g, index) in genres" :key="g._id">
             <span v-if="editIndex === index">
                 <input type="text" v-model="g.title" />
@@ -63,30 +89,42 @@
                 <button type="button" @click="deleteGenre(g)">Delete</button>
             </span>
         </div> -->
-        <!-- <GenreNew v-model="isAdded" /> -->
     </div>
 </template>
 
 <script>
-    import GenreNew from '@/components/GenreNew';
+    // import GenreNew from '@/components/GenreNew';
     import genreService from '@/services/genreService';
     export default {
         data() {
             return {
-                isAdded: '',
+                dialog: false,
+                newGenre: '',
                 editIndex: -1,
                 genres: []
             }
         },
-        watch: {
-            async isAdded (newVal, oldVal) {
-                if(newVal === true) {
-                    await this.getGenres();
-                    this.isAdded = false;
-                }
-            }
-        },
         methods: {
+            showDialog() {
+                this.dialog = true;
+                this.$nextTick(() => {
+                    const input = this.$refs.ng.$el.querySelector('input');
+                    input.focus();
+                    
+                })
+            },
+            async addGenre() {
+                const response = await genreService.addGenre(this.newGenre);
+                const result = response.data;
+                if(result.error) { // error
+                    console.log(result.error.code);
+                }
+                else {
+                    this.newGenre = '';
+                    this.getGenres();
+                    this.dialog = false;
+                }
+            },
             async updateGenre(genre) {
                 
                 const response = await genreService.updateGenre(genre);
@@ -113,7 +151,7 @@
             await this.getGenres();
         },
         components: {
-            GenreNew
+            // GenreNew
         }    
     }
 </script>

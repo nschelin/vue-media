@@ -61,7 +61,12 @@
 
 <script>
 export default {
-  data: () => ({drawer: false })
+  watch: {
+    '$route' (from, to) {
+      this.drawer = false;
+    }
+  },
+  data: () => ({ drawer: false })
 }
 </script>
 

@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <div class="container">
         <label for="genreTitle">
             <input id="genreTitle" type="text" v-model="genreTitle" @keyup.enter="addGenre()" />
         </label>
-        <button type="button" @click="addGenre()">Add</button> 
+        <v-btn color="success" @click="addGenre()">Add</v-btn> 
+        <v-btn color="success" @click="addGenre()">Cancel</v-btn> 
     </div>
 </template>
 
