@@ -25,6 +25,14 @@
               Genre
             </v-list-tile-title>
           </v-list-tile>
+          <v-list-tile @click="$router.push('/music')">
+            <v-list-tile-action>
+              <v-icon>fas fa-music</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>
+              Music
+            </v-list-tile-title>
+          </v-list-tile>
         </v-list>
       </v-navigation-drawer>
 

@@ -26,6 +26,11 @@ export default new Router({
       path: '/genres',
       name: 'genres',
       component: () => import('./views/Genre.vue')
+    },
+    {
+      path: '/music',
+      name: 'music',
+      component: () => import('./views/Music.vue')
     }
   ]
 });

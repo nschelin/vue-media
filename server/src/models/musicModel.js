@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Media = require('./mediaBase.js');
 const musicSchema = new Schema(
 	{
+		artist: String,
 		desc: String,
 		year: Number,
 		genre: String,
@@ -17,4 +18,5 @@ const musicSchema = new Schema(
 	MediaOptions
 );
 
-module.exports = Media.discriminator('Music', musicSchema);
+const Music = Media.discriminator('Music', musicSchema);
+module.exports = { Music };
