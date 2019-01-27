@@ -9,7 +9,7 @@
         <v-list dense>
           <v-list-tile @click="$router.push('/')">
               <v-list-tile-action>
-                <v-icon>home</v-icon>
+                <v-icon>fas fa-home</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -19,6 +19,7 @@
           </v-list-tile>
           <v-list-tile @click="$router.push('/genres')">
             <v-list-tile-action>
+              <v-icon>fas fa-theater-masks</v-icon>
             </v-list-tile-action>
             <v-list-tile-title>
               Genre
@@ -38,14 +39,14 @@
       <v-content>
         <v-container>
           <v-layout align-center justify-center row>
-            <v-flex sm6 md6 lg6>
+            <v-flex sm12 md12 lg12>
               <router-view />
             </v-flex>
           </v-layout>
         </v-container>
       </v-content>
       <v-footer app fixed>
-        <span>&copy; 2018</span>
+        <span>&copy; {{ year }}</span>
       </v-footer>
   </v-app>
 
@@ -66,7 +67,10 @@ export default {
       this.drawer = false;
     }
   },
-  data: () => ({ drawer: false })
+  data: () => ({
+     drawer: false,
+     year: new Date().getFullYear() 
+  })
 }
 </script>
 
