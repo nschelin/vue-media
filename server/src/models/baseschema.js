@@ -14,4 +14,4 @@ const BaseSchema = {
 		default: Date.now
 	}
 };
-module.exports = BaseSchema;
+module.exports = { BaseSchema };

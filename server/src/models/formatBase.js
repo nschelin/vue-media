@@ -1,4 +1,4 @@
-const BaseSchema = require('./baseschema');
+const { BaseSchema } = require('./baseschema');
 const { FormatOptions } = require('./options');
 
 const mongoose = require('mongoose');
