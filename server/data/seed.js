@@ -35,7 +35,9 @@ async function createData() {
 	const genres = [
 		{ title: 'Science Fiction', types: ['Movie', 'Video Game', 'Book'] },
 		{ title: 'Rock', types: ['Music'] },
-		{ title: 'Action', types: ['Movie', 'Video Game'] }
+		{ title: 'Alternative', types: ['Music'] },
+		{ title: 'Action', types: ['Movie', 'Video Game'] },
+		{ title: 'Thriller', types: ['Movie', 'Video Game', 'Book'] }
 	];
 
 	const media = [
@@ -45,7 +47,10 @@ async function createData() {
 		},
 		{ title: 'VHS', types: ['Movie'] },
 		{ title: 'DVD', types: ['Movie', 'Video Game'] },
-		{ title: 'Bluray', types: ['Movie', 'Video Game'] }
+		{ title: 'Bluray', types: ['Movie', 'Video Game'] },
+		{ title: 'Book', types: ['Book'] },
+		{ title: 'Magazine', types: ['Book'] },
+		{ title: 'Cartridge', types: ['Video Game'] }
 	];
 
 	log('* Creating Media Types', messageColor);
