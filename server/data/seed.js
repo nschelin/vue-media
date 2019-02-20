@@ -16,6 +16,7 @@ const { MediaType } = require('../src/models/mediaType');
 const { Genre } = require('../src/models/genre');
 const { Media } = require('../src/models/media');
 const { Role } = require('../src/models/role');
+const { Person } = require('../src/models/person');
 
 const dbOptions = {
 	useNewUrlParser: true
@@ -63,11 +64,24 @@ function getSeedData() {
 		{ title: 'Drummer', types: ['Music'] }
 	];
 
-	return [mediaTypes, genres, media, roles];
+	const people = [
+		{ lastName: 'Spielberg', firstName: 'Steven', roles: ['Director'] },
+		{ lastName: 'Cameron', firstName: 'James', roles: ['Director'] },
+		{ lastName: 'Hideo', firstName: 'Kojima', roles: ['Director'] },
+		{
+			lastName: 'North',
+			firstName: 'Nolan',
+			roles: ['Voice Actor (VO)', 'Actor']
+		},
+		{ lastName: 'King', firstName: 'Stephen', roles: ['Author', 'Actor'] },
+		{ lastName: 'Iha', firstName: 'James', roles: ['Guitar'] }
+	];
+
+	return [mediaTypes, genres, media, roles, people];
 }
 
 async function createData() {
-	const [mediaTypes, genres, media, roles] = getSeedData();
+	const [mediaTypes, genres, media, roles, people] = getSeedData();
 
 	log('* Creating Media Types', messageColor);
 	for (let mt of mediaTypes) {
@@ -78,7 +92,7 @@ async function createData() {
 	for (let g of genres) {
 		await Genre.create({
 			title: g.title,
-			mediaTypes: await getMediaTypes(g.types)
+			mediaTypes: await getModelTypes(g.types, 'MediaType')
 		});
 	}
 
@@ -86,7 +100,7 @@ async function createData() {
 	for (let m of media) {
 		await Media.create({
 			title: m.title,
-			mediaTypes: await getMediaTypes(m.types)
+			mediaTypes: await getModelTypes(m.types, 'MediaType')
 		});
 	}
 
@@ -94,7 +108,16 @@ async function createData() {
 	for (let r of roles) {
 		await Role.create({
 			title: r.title,
-			mediaTypes: await getMediaTypes(r.types)
+			mediaTypes: await getModelTypes(r.types, 'MediaType')
+		});
+	}
+
+	log('* Creating People', messageColor);
+	for (let p of people) {
+		await Person.create({
+			lastName: p.lastName,
+			firstName: p.firstName,
+			roles: await getModelTypes(p.roles, 'Role')
 		});
 	}
 
@@ -102,13 +125,24 @@ async function createData() {
 	process.exit();
 }
 
-async function getMediaTypes(types) {
-	const mediaTypes = [];
+async function getModelTypes(types, typeName) {
+	const items = [];
+	let model;
+
+	switch (typeName) {
+	case 'MediaType':
+		model = MediaType;
+		break;
+	case 'Role':
+		model = Role;
+		break;
+	}
+	if (!model) throw Error('model');
 
 	for (let title of types) {
-		mediaTypes.push(await MediaType.findOne({ title }));
+		items.push(await model.findOne({ title }));
 	}
-	return mediaTypes;
+	return items;
 }
 
 async function deleteData() {
@@ -123,6 +157,9 @@ async function deleteData() {
 
 	log('* Deleting Roles', messageColor);
 	await Role.deleteMany();
+
+	log('* Deleting People', messageColor);
+	await Person.deleteMany();
 
 	log('--- Done Deleting Data ---', completeColor);
 	process.exit();
