@@ -15,6 +15,7 @@ const completeColor = 'red';
 const { MediaType } = require('../src/models/mediaType');
 const { Genre } = require('../src/models/genre');
 const { Media } = require('../src/models/media');
+const { Role } = require('../src/models/role');
 
 const dbOptions = {
 	useNewUrlParser: true
@@ -30,7 +31,7 @@ mongoose.connect(process.env.DATABASE, dbOptions, err => {
 	}
 });
 
-async function createData() {
+function getSeedData() {
 	const mediaTypes = ['Movie', 'Music', 'Video Game', 'Book'];
 	const genres = [
 		{ title: 'Science Fiction', types: ['Movie', 'Video Game', 'Book'] },
@@ -53,6 +54,21 @@ async function createData() {
 		{ title: 'Cartridge', types: ['Video Game'] }
 	];
 
+	const roles = [
+		{ title: 'Director', types: ['Movie', 'Video Game'] },
+		{ title: 'Author', types: ['Book'] },
+		{ title: 'Actor', types: ['Movie', 'Video Game'] },
+		{ title: 'Voice Actor (VO)', types: ['Movie', 'Video Game'] },
+		{ title: 'Guitar', types: ['Music'] },
+		{ title: 'Drummer', types: ['Music'] }
+	];
+
+	return [mediaTypes, genres, media, roles];
+}
+
+async function createData() {
+	const [mediaTypes, genres, media, roles] = getSeedData();
+
 	log('* Creating Media Types', messageColor);
 	for (let mt of mediaTypes) {
 		await MediaType.create({ title: mt });
@@ -60,28 +76,39 @@ async function createData() {
 
 	log('* Creating Genres', messageColor);
 	for (let g of genres) {
-		const mediaTypes = [];
-		const types = g.types;
-		for (let title of types) {
-			mediaTypes.push(await MediaType.findOne({ title }));
-		}
-
-		await Genre.create({ title: g.title, mediaTypes });
+		await Genre.create({
+			title: g.title,
+			mediaTypes: await getMediaTypes(g.types)
+		});
 	}
 
 	log('* Creating Media', messageColor);
 	for (let m of media) {
-		const mediaTypes = [];
-		const types = m.types;
-		for (let title of types) {
-			mediaTypes.push(await MediaType.findOne({ title }));
-		}
+		await Media.create({
+			title: m.title,
+			mediaTypes: await getMediaTypes(m.types)
+		});
+	}
 
-		await Media.create({ title: m.title, mediaTypes });
+	log('* Creating Role', messageColor);
+	for (let r of roles) {
+		await Role.create({
+			title: r.title,
+			mediaTypes: await getMediaTypes(r.types)
+		});
 	}
 
 	log('--- Done Creating Data ---', completeColor);
 	process.exit();
+}
+
+async function getMediaTypes(types) {
+	const mediaTypes = [];
+
+	for (let title of types) {
+		mediaTypes.push(await MediaType.findOne({ title }));
+	}
+	return mediaTypes;
 }
 
 async function deleteData() {
@@ -93,6 +120,9 @@ async function deleteData() {
 
 	log('* Deleting Media Types', messageColor);
 	await MediaType.deleteMany();
+
+	log('* Deleting Roles', messageColor);
+	await Role.deleteMany();
 
 	log('--- Done Deleting Data ---', completeColor);
 	process.exit();
