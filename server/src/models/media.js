@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Base Schema
 const { BaseSchema } = require('./baseschema');
 
 // Combine baseschema and Media pieces
