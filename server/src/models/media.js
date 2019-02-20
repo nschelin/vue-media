@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const { BaseSchema } = require('./baseschema');
 
+// Combine baseschema and Media pieces
 const MediaSchema = new Schema(
 	Object.assign(
 		{},
