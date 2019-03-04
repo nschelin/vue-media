@@ -3,20 +3,17 @@ const Schema = mongoose.Schema;
 
 const { BaseSchema } = require('./baseschema');
 
-const GenreSchema = new Schema(
-	Object.assign(
-		{},
+const genreBaseSchema = {
+	mediaTypes: [
 		{
-			mediaTypes: [
-				{
-					type: Schema.ObjectId,
-					ref: 'MediaType'
-				}
-			]
-		},
-		BaseSchema
-	)
-);
+			type: Schema.ObjectId,
+			ref: 'MediaType'
+		}
+	],
+	...BaseSchema
+};
+
+const GenreSchema = new Schema(genreBaseSchema);
 
 const Genre = mongoose.model('Genre', GenreSchema);
 module.exports = { Genre };

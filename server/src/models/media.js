@@ -4,21 +4,18 @@ const Schema = mongoose.Schema;
 // Base Schema
 const { BaseSchema } = require('./baseschema');
 
-// Combine baseschema and Media pieces
-const MediaSchema = new Schema(
-	Object.assign(
-		{},
+const mediaBaseSchema = {
+	mediaTypes: [
 		{
-			mediaTypes: [
-				{
-					type: Schema.ObjectId,
-					ref: 'MediaType'
-				}
-			]
-		},
-		BaseSchema
-	)
-);
+			type: Schema.ObjectId,
+			ref: 'MediaType'
+		}
+	],
+	...BaseSchema
+};
+
+// Combine baseschema and Media pieces
+const MediaSchema = new Schema(mediaBaseSchema);
 
 const Media = mongoose.model('Media', MediaSchema);
 module.exports = { Media };

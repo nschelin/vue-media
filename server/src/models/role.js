@@ -3,20 +3,17 @@ const Schema = mongoose.Schema;
 
 const { BaseSchema } = require('./baseschema');
 
-const RoleSchema = new Schema(
-	Object.assign(
-		{},
+const roleBaseSchema = {
+	mediaTypes: [
 		{
-			mediaTypes: [
-				{
-					type: Schema.ObjectId,
-					ref: 'MediaType'
-				}
-			]
-		},
-		BaseSchema
-	)
-);
+			type: Schema.ObjectId,
+			ref: 'MediaType'
+		}
+	],
+	...BaseSchema
+};
+
+const RoleSchema = new Schema(roleBaseSchema);
 
 const Role = mongoose.model('Role', RoleSchema);
 module.exports = { Role };
