@@ -1,6 +1,7 @@
 require('dotenv').config({ path: __dirname + '/../.env' });
 const chalk = require('chalk');
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 // const {
 // 	//Genre,
 // 	VideoFormat,
@@ -17,6 +18,8 @@ const { Genre } = require('../src/models/genre');
 const { Media } = require('../src/models/media');
 const { Role } = require('../src/models/role');
 const { Person } = require('../src/models/person');
+const { Artist } = require('../src/models/artist');
+const { Album } = require('../src/models/album');
 
 const dbOptions = {
 	useNewUrlParser: true
@@ -77,11 +80,91 @@ function getSeedData() {
 		{ lastName: 'Iha', firstName: 'James', roles: ['Guitar'] }
 	];
 
-	return [mediaTypes, genres, media, roles, people];
+	const artists = [
+		{
+			title: 'Blood Red Shoes',
+			yearsActive: [
+				2004,
+				2005,
+				2006,
+				2007,
+				2008,
+				2009,
+				2010,
+				2011,
+				2012,
+				2013,
+				2014,
+				2015,
+				2016,
+				2017,
+				2018,
+				2019
+			]
+		},
+		{
+			title: 'blink-182',
+			yearsActive: [
+				1992,
+				1993,
+				1994,
+				1995,
+				1996,
+				1997,
+				1998,
+				1999,
+				2000,
+				2001,
+				2002,
+				2003,
+				2004,
+				2005,
+				2009,
+				2010,
+				2011,
+				2012,
+				2013,
+				2014,
+				2015,
+				2016,
+				2017,
+				2018,
+				2019
+			]
+		}
+	];
+
+	const albums = [
+		{
+			title: 'Get Tragic',
+			year: 2019,
+			artist: 'Blood Red Shoes'
+		},
+		{
+			title: 'Enema of the State',
+			year: 1999,
+			artist: 'blink-182'
+		},
+		{
+			title: 'California',
+			year: 2016,
+			artist: 'blink-182'
+		}
+	];
+
+	return [mediaTypes, genres, media, roles, people, artists, albums];
 }
 
 async function createData() {
-	const [mediaTypes, genres, media, roles, people] = getSeedData();
+	const [
+		mediaTypes,
+		genres,
+		media,
+		roles,
+		people,
+		artists,
+		albums
+	] = getSeedData();
 
 	log('* Creating Media Types', messageColor);
 	for (let mt of mediaTypes) {
@@ -120,6 +203,49 @@ async function createData() {
 			roles: await getModelTypes(p.roles, 'Role')
 		});
 	}
+
+	log('* Creating Artist', messageColor);
+	for (let a of artists) {
+		await Artist.create({
+			title: a.title,
+			yearsActive: a.yearsActive
+		});
+	}
+
+	log('* Creating Albums', messageColor);
+	for (let a of albums) {
+		await Album.create({
+			title: a.title,
+			year: a.year
+		});
+	}
+
+	log('* Mapping Album/Artist', messageColor);
+	for (let a of artists) {
+		const artistAlbums = albums.filter(album => album.artist === a.title);
+		const insertAlbums = [];
+
+		for (let aa of artistAlbums) {
+			const album = await Album.findOne({ title: aa.title, year: aa.year });
+			if (album) {
+				insertAlbums.push(album);
+			}
+		}
+
+		await Artist.findOneAndUpdate(
+			{ title: a.title },
+			{ discography: { albums: insertAlbums } }
+		);
+	}
+
+	// Testin
+	// const b182 = await Artist.findOne({ title: 'blink-182' })
+	// 	.populate({ path: 'discography.albums' })
+	// 	.exec();
+	// console.log(b182.title);
+	// b182.discography.albums.forEach(album =>
+	// 	console.log(`${album.title}, ${album.year}`)
+	// );
 
 	log('--- Done Creating Data ---', completeColor);
 	process.exit();
@@ -160,6 +286,12 @@ async function deleteData() {
 
 	log('* Deleting People', messageColor);
 	await Person.deleteMany();
+
+	log('* Deleting Artist', messageColor);
+	await Artist.deleteMany();
+
+	log('* Deleting Album', messageColor);
+	await Album.deleteMany();
 
 	log('--- Done Deleting Data ---', completeColor);
 	process.exit();
