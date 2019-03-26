@@ -30,6 +30,6 @@ const albumBaseSchema = {
 	...BaseSchema
 };
 
-const albumSchema = new Schema(albumBaseSchema);
+const albumSchema = new Schema(albumBaseSchema, { collection: 'albums' });
 const Album = mongoose.model('Album', albumSchema);
 module.exports = { Album };

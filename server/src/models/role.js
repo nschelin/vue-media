@@ -13,7 +13,7 @@ const roleBaseSchema = {
 	...BaseSchema
 };
 
-const RoleSchema = new Schema(roleBaseSchema);
+const RoleSchema = new Schema(roleBaseSchema, { collection: 'roles' });
 
 const Role = mongoose.model('Role', RoleSchema);
 module.exports = { Role };

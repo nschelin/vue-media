@@ -19,7 +19,7 @@ const personBaseSchema = {
 	...BaseSchema
 };
 
-const PersonSchema = new Schema(personBaseSchema);
+const PersonSchema = new Schema(personBaseSchema, { collection: 'people' });
 
-const Person = mongoose.model('Person', PersonSchema, 'people');
+const Person = mongoose.model('Person', PersonSchema);
 module.exports = { Person };

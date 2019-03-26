@@ -15,7 +15,7 @@ const mediaBaseSchema = {
 };
 
 // Combine baseschema and Media pieces
-const MediaSchema = new Schema(mediaBaseSchema);
+const MediaSchema = new Schema(mediaBaseSchema, { collection: 'media' });
 
 const Media = mongoose.model('Media', MediaSchema);
 module.exports = { Media };

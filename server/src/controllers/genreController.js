@@ -1,11 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose').set(
+	'debug',
+	(collectionName, method, query, doc) => {
+		console.log(`${collectionName}.${method}`, JSON.stringify(query), doc);
+	}
+);
+
 const Genre = mongoose.model('Genre');
 
 exports.list = async (req, res) => {
-	const genres = await Genre.find()
-		.select('title created modified')
+	const genres = await Genre.find({})
+		.select('title')
+		.populate('mediaTypes', '_id title')
 		.sort({ title: 'asc' });
+	console.log(genres);
 	res.send(genres);
+};
+
+exports.get = (req, res) => {
+	Genre.findById(req.params.id, function(err, genre) {
+		console.log(genre);
+		res.send(genre);
+	});
 };
 
 exports.update = async (req, res) => {

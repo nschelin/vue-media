@@ -30,6 +30,6 @@ const artistBaseSchema = {
 	...BaseSchema
 };
 
-const artistSchema = new Schema(artistBaseSchema);
+const artistSchema = new Schema(artistBaseSchema, { collection: 'artists' });
 const Artist = mongoose.model('Artist', artistSchema);
 module.exports = { Artist };

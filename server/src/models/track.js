@@ -28,7 +28,7 @@ const trackBaseSchema = {
 	...BaseSchema
 };
 
-const Track = new Schema(trackBaseSchema);
+const Track = new Schema(trackBaseSchema, { collection: 'tracks' });
 
 const Track = mongoose.model('Track', trackSchema);
 module.exports = { Track };

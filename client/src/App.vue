@@ -71,26 +71,26 @@
 <script>
 export default {
   watch: {
-    '$route' (from, to) {
+    // eslint-disable-next-line
+    $route(from, to) {
       this.drawer = false;
     }
   },
   data: () => ({
-     drawer: false,
-     year: new Date().getFullYear() 
+    drawer: false,
+    year: new Date().getFullYear()
   })
-}
+};
 </script>
 
 
 <style lang="scss">
-  #app {
-    .toolbar-title {
-      text-decoration: none;
-      color: #FFF;
-      
-    }
+#app {
+  .toolbar-title {
+    text-decoration: none;
+    color: #fff;
   }
+}
 // #app {
 //   font-family: "Avenir", Helvetica, Arial, sans-serif;
 //   -webkit-font-smoothing: antialiased;

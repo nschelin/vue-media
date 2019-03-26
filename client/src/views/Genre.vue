@@ -5,17 +5,15 @@
 </template>
 
 <script>
-    
-    import GenreList from '@/components/GenreList';
-    export default {
-        name: 'genres',
+import GenreList from '@/components/GenreList';
+export default {
+  name: 'genres',
 
-        components: {
-            GenreList
-        }
-    }
+  components: {
+    GenreList
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

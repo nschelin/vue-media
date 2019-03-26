@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const { BaseSchema } = require('./baseschema');
 
 // MediaType schema is same as base
-const MediaTypeSchema = new Schema(BaseSchema);
+const MediaTypeSchema = new Schema(BaseSchema, { collection: 'mediatypes' });
 
 const MediaType = mongoose.model('MediaType', MediaTypeSchema);
 

@@ -10,6 +10,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 //const cors = require('cors');
 const mongoose = require('mongoose');
+//mongoose.Promise = Promise;
 
 const app = express();
 app.use(logger('dev'));
@@ -21,16 +22,13 @@ const dbOptions = {
 	useNewUrlParser: true
 };
 
-mongoose.connect(
-	process.env.DATABASE,
-	dbOptions,
-	err => {
-		if (err) throw err;
-		console.log(chalk.cyan('Connected to Db'));
-	}
-);
+mongoose.connect(process.env.DATABASE, dbOptions, err => {
+	if (err) throw err;
+	console.log(chalk.cyan('Connected to Db'));
+});
 
-require('./models/supportModels');
+//require('./models/supportModels');
+require('./models');
 
 const api = require('./api');
 app.use('/api', api);

@@ -1,11 +1,11 @@
-const BaseSchema = require('./baseschema');
-const { MediaOptions } = require('./options');
+// const BaseSchema = require('./baseschema');
+// const { MediaOptions } = require('./options');
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
 
-const mediaBaseSchema = new Schema(BaseSchema, MediaOptions);
+// const mediaBaseSchema = new Schema(BaseSchema, MediaOptions);
 
-const Media = mongoose.model('Media', mediaBaseSchema);
+// const Media = mongoose.model('Media', mediaBaseSchema);
 
-module.exports = Media;
+// module.exports = Media;

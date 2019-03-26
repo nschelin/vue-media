@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-list>
+    <v-list two-line>
 
-      <v-list-tile class="list-title" v-for="(g, index) in genres" :key="g._id">
+      <v-list-tile  v-for="(g, index) in genres" :key="g._id">
         
         <template v-if="editIndex === index">
           <v-list-tile-content>
@@ -24,7 +24,12 @@
         <template v-else>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{ g.title }}</v-list-tile-title>
+            <v-list-tile-title class="pl-2 title">
+                {{ g.title }}
+            </v-list-tile-title>
+            <div>
+              <v-chip label color="primary" outline text-color="white" v-for="mt in g.mediaTypes" :key="mt._id">{{ mt.title }}</v-chip>
+            </div>
           </v-list-tile-content>
 
           <v-list-tile-action style="margin-right: 5px;">
@@ -111,7 +116,7 @@ export default {
       this.editIndex = -1;
     },
     async deleteGenre(genre) {
-      if(confirm(`Delege genre: ${genre.title} ?`)){
+      if(confirm(`Delete genre: ${genre.title} ?`)){
         const response = await genreService.deleteGenre(genre);
         const result = response.data;
         if (result.success) {
@@ -136,14 +141,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list-tile,
-.list-title {
-  height: 60px !important;
-}
 
-.list-title > .v-list__tile {
-  height: 60px !important;
-}
+.list-title > 
+// .list-tile,
+// .list-title {
+//   height: 60px !important;
+// }
+
+// .list-title > .v-list__tile {
+//   height: 60px !important;
+// }
 
 .white-text {
   color: white;
