@@ -9,7 +9,7 @@ const Genre = mongoose.model('Genre');
 
 exports.list = async (req, res) => {
 	const genres = await Genre.find({})
-		.select('title')
+		.select('title _id')
 		.populate('mediaTypes', '_id title')
 		.sort({ title: 'asc' });
 	console.log(genres);

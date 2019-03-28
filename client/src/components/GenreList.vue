@@ -50,7 +50,7 @@
     </v-list>
 
     <v-btn fab fixed bottom right style="margin-right: 20px;" color="blue" slot="activator" @click="showDialog()">
-      <v-icon>add</v-icon>
+      <v-icon>fa fa-plus</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" persistent max-width="500">
@@ -79,16 +79,17 @@
 
 <script>
 // import GenreNew from '@/components/GenreNew';
-import genreService from '@/services/genreService';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
       dialog: false,
       newGenre: '',
       editIndex: -1,
-      genres: []
     };
   },
+  computed: mapState(['genres']),
   methods: {
     showDialog() {
       this.dialog = true;
@@ -98,41 +99,55 @@ export default {
       });
     },
     async addGenre() {
-      const response = await genreService.addGenre(this.newGenre);
-      const result = response.data;
-      if (result.error) {
-        // error
-        console.log(result.error.code);
-      } else {
+      const result = await this.$store.dispatch('addGenre', this.newGenre);
+      if(result) {
         this.newGenre = '';
-        this.getGenres();
         this.dialog = false;
       }
     },
-    async updateGenre(genre) {
-      const response = await genreService.updateGenre(genre);
-      const newGenre = response.data;
-      console.log(`newGenre title: ${newGenre.title}`);
-      this.editIndex = -1;
-    },
     async deleteGenre(genre) {
       if(confirm(`Delete genre: ${genre.title} ?`)){
-        const response = await genreService.deleteGenre(genre);
-        const result = response.data;
-        if (result.success) {
-          this.getGenres();
-        } else {
-          console.log(result.error.message);
-        }
+        this.$store.dispatch('deleteGenre', genre);
       }
     },
-    async getGenres() {
-      const response = await genreService.getGenres();
-      this.genres = response.data;
+    async updateGenre(genre) {
+      const result = await this.$store.dispatch('updateGenre', genre);
+      if(result) {
+        this.editIndex = -1;
+      }
     }
+    // async addGenre() {
+    //   const response = await genreService.addGenre(this.newGenre);
+    //   const result = response.data;
+    //   if (result.error) {
+    //     // error
+    //     console.log(result.error.code);
+    //   } else {
+    //     this.newGenre = '';
+    //     this.getGenres();
+    //     this.dialog = false;
+    //   }
+    // },
+    // async updateGenre(genre) {
+    //   const response = await genreService.updateGenre(genre);
+    //   const newGenre = response.data;
+    //   console.log(`newGenre title: ${newGenre.title}`);
+    //   this.editIndex = -1;
+    // },
+    // async deleteGenre(genre) {
+    //   if(confirm(`Delete genre: ${genre.title} ?`)){
+    //     const response = await genreService.deleteGenre(genre);
+    //     const result = response.data;
+    //     if (result.success) {
+    //       this.getGenres();
+    //     } else {
+    //       console.log(result.error.message);
+    //     }
+    //   }
+    // },
   },
   async created() {
-    await this.getGenres();
+    await this.$store.dispatch('getGenres');  
   },
   components: {
     // GenreNew
@@ -142,7 +157,9 @@ export default {
 
 <style lang="scss" scoped>
 
-.list-title > 
+.v-list > div {
+  margin-bottom: 15px;
+}
 // .list-tile,
 // .list-title {
 //   height: 60px !important;
