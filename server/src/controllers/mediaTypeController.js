@@ -5,47 +5,53 @@ const mongoose = require('mongoose').set(
 	}
 );
 
-const Genre = mongoose.model('Genre');
+const MediaType = mongoose.model('MediaType');
 
 exports.list = async (req, res) => {
-	const genres = await Genre.find({})
+	const mediaTypes = await MediaType.find({})
 		.select('title _id')
-		.populate('mediaTypes', '_id title')
 		.sort({ title: 'asc' });
-	res.send(genres);
+	console.log(mediaTypes);
+	res.send(mediaTypes);
 };
 
 exports.get = (req, res) => {
-	Genre.findById(req.params.id, function(err, genre) {
-		res.send(genre);
+	MediaType.findById(req.params.id, function(err, mediaType) {
+		console.log(mediaType);
+		res.send(mediaType);
 	});
 };
 
 exports.update = async (req, res) => {
-	const genre = await Genre.findOneAndUpdate({ _id: req.params.id }, req.body, {
-		new: true // returns new, updated store instead of the old one
-	});
-	res.send(genre);
+	const mediaType = await MediaType.findOneAndUpdate(
+		{ _id: req.params.id },
+		req.body,
+		{
+			new: true // returns new, updated store instead of the old one
+		}
+	);
+	res.send(mediaType);
 };
 
 exports.add = async (req, res) => {
-	const title = req.body.genreTitle;
-	let genre = await Genre.findOne({
+	const title = req.body.mediaTypeTitle;
+	let mediaType = await MediaType.findOne({
 		title: { $regex: new RegExp(`^${title}$`, 'i') }
 	});
 
-	if (genre) {
+	if (mediaType) {
 		// genre exists
 		res.send({ error: { code: 409, message: 'already exists' } });
 	} else {
-		genre = await Genre.create({ title });
-		res.send(genre);
+		mediaType = await MediaType.create({ title });
+		res.send(mediaType);
 	}
 };
 
 exports.delete = async (req, res) => {
 	const id = req.params.id;
-	Genre.findByIdAndDelete(id, err => {
+	console.log(id);
+	MediaType.findByIdAndDelete(id, err => {
 		if (err) {
 			res.send({
 				success: false,
