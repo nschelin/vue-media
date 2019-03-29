@@ -28,6 +28,11 @@ export default new Router({
       component: () => import('./views/Genre.vue')
     },
     {
+      path: '/mediatypes',
+      name: 'mediaTypes',
+      component: () => import('./views/MediaType.vue')
+    },
+    {
       path: '/music',
       name: 'music',
       component: () => import('./views/Music.vue')

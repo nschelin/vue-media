@@ -17,14 +17,7 @@
                 </v-list-tile-title>
               </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="$router.push('/genres')">
-            <v-list-tile-action>
-              <v-icon>fas fa-theater-masks</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Genre
-            </v-list-tile-title>
-          </v-list-tile>
+
           <v-list-tile @click="$router.push('/music')">
             <v-list-tile-action>
               <v-icon>fas fa-music</v-icon>
@@ -33,6 +26,62 @@
               Music
             </v-list-tile-title>
           </v-list-tile>
+
+          <v-list-tile @click="$router.push('/movies')">
+            <v-list-tile-action>
+              <v-icon>fas fa-film</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>
+              Movies
+            </v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile @click="$router.push('/videogames')">
+            <v-list-tile-action>
+              <v-icon>fas fa-gamepad</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>
+              Video Games
+            </v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile @click="$router.push('/books')">
+            <v-list-tile-action>
+              <v-icon>fas fa-book</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>
+              Books
+            </v-list-tile-title>
+          </v-list-tile>
+          
+
+          <v-list-group prepend-icon="fas fa-tools" no-action>
+            <v-list-tile slot="activator">
+              Utilities
+            </v-list-tile>
+            
+            <v-list-tile @click="$router.push('/mediatypes')">
+              <v-list-tile-action>
+                <v-icon>fas fa-compact-disc</v-icon>
+              </v-list-tile-action>
+                <v-list-tile-title>
+                  Media Types
+                </v-list-tile-title>
+            </v-list-tile>
+          
+            <v-list-tile @click="$router.push('/genres')">
+              <v-list-tile-action>
+                <v-icon>fas fa-theater-masks</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-title>
+                Genre
+              </v-list-tile-title>
+            </v-list-tile>
+
+
+          </v-list-group>
+
+
         </v-list>
       </v-navigation-drawer>
 
@@ -44,6 +93,7 @@
           </v-toolbar-title>
         </router-link>
       </v-toolbar>
+      
       <v-content>
         <v-container>
           <v-layout align-center justify-center row>
@@ -54,7 +104,7 @@
         </v-container>
       </v-content>
       <v-footer app fixed>
-        <span>&copy; {{ year }}</span>
+        <span class="ml-3">&copy; {{ year }}</span>
       </v-footer>
   </v-app>
 

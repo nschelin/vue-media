@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import genreService from '@/services/genreService';
+import { genreService, mediaTypeService } from '@/services';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    genres: []
+    genres: [],
+    mediaTypes: []
   },
   mutations: {
     SET_GENRES(state, genres) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     UPDATE_GENRE(state, genre) {
       const index = state.genres.findIndex(g => g._id === genre._id);
       state.genres[index] = genre;
+    },
+    SET_MEDIA_TYPES(state, mediaTypes) {
+      state.mediaTypes = mediaTypes;
     }
   },
   actions: {
@@ -49,6 +53,10 @@ export default new Vuex.Store({
       if (result.success) {
         commit('DELETE_GENRE', genre);
       }
+    },
+    async getMediaTypes({ commit }) {
+      const response = await mediaTypeService.getMediaTypes();
+      commit('SET_MEDIA_TYPES', response.data);
     }
   }
 });

@@ -1,6 +1,11 @@
 <template>
     <div>
-        <GenreList />
+        <div>
+          <h1>Genres</h1>
+        </div>
+        <div>
+          <GenreList />
+        </div>
     </div>
 </template>
 
