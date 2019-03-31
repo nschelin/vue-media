@@ -7,8 +7,8 @@ export default {
   async updateGenre(genre) {
     return await axios.put(`/api/genre/${genre._id}`, genre);
   },
-  async addGenre(genreTitle) {
-    return await axios.post(`/api/genre`, { genreTitle });
+  async addGenre(genre) {
+    return await axios.post(`/api/genre`, genre);
   },
   async deleteGenre(genre) {
     return await axios.delete(`/api/genre/${genre._id}`);

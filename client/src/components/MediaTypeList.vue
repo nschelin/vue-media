@@ -84,7 +84,9 @@ export default {
       editIndex: -1,
     };
   },
-  computed: mapState(['mediaTypes']),
+  computed: mapState({
+      mediaTypes: state => state.mediaTypes.mediaTypes
+  }),
   methods: {
     showDialog() {
       this.dialog = true;

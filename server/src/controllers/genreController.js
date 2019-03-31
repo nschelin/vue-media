@@ -24,22 +24,31 @@ exports.get = (req, res) => {
 exports.update = async (req, res) => {
 	const genre = await Genre.findOneAndUpdate({ _id: req.params.id }, req.body, {
 		new: true // returns new, updated store instead of the old one
-	});
+	}).populate('mediaTypes', '_id title');
+
 	res.send(genre);
 };
 
 exports.add = async (req, res) => {
-	const title = req.body.genreTitle;
+	const newGenre = req.body;
+	console.log(newGenre);
 	let genre = await Genre.findOne({
-		title: { $regex: new RegExp(`^${title}$`, 'i') }
+		title: { $regex: new RegExp(`^${newGenre.title}$`, 'i') }
 	});
 
 	if (genre) {
 		// genre exists
 		res.send({ error: { code: 409, message: 'already exists' } });
 	} else {
-		genre = await Genre.create({ title });
+		genre = await Genre.create({
+			title: newGenre.title,
+			mediaTypes: newGenre.mediaTypes
+		});
+		await genre.populate('mediaTypes').execPopulate();
 		res.send(genre);
+		// Genre.populate(genre, { path: 'mediaTypes' }, (err, genre) => {
+		// 	res.send(genre);
+		// });
 	}
 };
 
