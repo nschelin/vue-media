@@ -28,7 +28,6 @@ const actions = {
   },
   async addGenre({ commit }, newGenre) {
     const response = await genreService.addGenre(newGenre);
-    console.log(response);
     const result = response.data;
     if (!result.error) {
       commit('ADD_GENRE', result);
