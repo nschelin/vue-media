@@ -7,81 +7,33 @@
         app
       >
         <v-list dense>
-          <v-list-tile @click="$router.push('/')">
+          <template v-for="nav in navigation">
+          <v-list-tile v-if="nav.path" :key="nav.title" @click="$router.push(nav.path)">
               <v-list-tile-action>
-                <v-icon>fas fa-home</v-icon>
+                <v-icon>{{ nav.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  Home
+                  {{ nav.title }}
                 </v-list-tile-title>
               </v-list-tile-content>
           </v-list-tile>
 
-          <v-list-tile @click="$router.push('/music')">
-            <v-list-tile-action>
-              <v-icon>fas fa-music</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Music
-            </v-list-tile-title>
-          </v-list-tile>
-
-          <v-list-tile @click="$router.push('/movies')">
-            <v-list-tile-action>
-              <v-icon>fas fa-film</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Movies
-            </v-list-tile-title>
-          </v-list-tile>
-
-          <v-list-tile @click="$router.push('/videogames')">
-            <v-list-tile-action>
-              <v-icon>fas fa-gamepad</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Video Games
-            </v-list-tile-title>
-          </v-list-tile>
-
-          <v-list-tile @click="$router.push('/books')">
-            <v-list-tile-action>
-              <v-icon>fas fa-book</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Books
-            </v-list-tile-title>
-          </v-list-tile>
-          
-
-          <v-list-group prepend-icon="fas fa-tools" no-action>
+          <v-list-group v-if="!nav.path" :key="nav.title" :prepend-icon="nav.icon" no-action>
             <v-list-tile slot="activator">
-              Utilities
+              {{ nav.title }}
             </v-list-tile>
             
-            <v-list-tile @click="$router.push('/mediatypes')">
+            <v-list-tile v-for="subitem of nav.subitems" :key="subitem.title" @click="$router.push(subitem.path)">
               <v-list-tile-action>
-                <v-icon>fas fa-compact-disc</v-icon>
+                <v-icon>{{ subitem.icon }}</v-icon>
               </v-list-tile-action>
                 <v-list-tile-title>
-                  Media Types
+                  {{ subitem.title }}
                 </v-list-tile-title>
             </v-list-tile>
-          
-            <v-list-tile @click="$router.push('/genres')">
-              <v-list-tile-action>
-                <v-icon>fas fa-theater-masks</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-title>
-                Genre
-              </v-list-tile-title>
-            </v-list-tile>
-
-
           </v-list-group>
-
-
+          </template>
         </v-list>
       </v-navigation-drawer>
 
@@ -89,7 +41,7 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <router-link to="/" class="toolbar-title">
           <v-toolbar-title>
-            Media Database    
+            {{ title }}  
           </v-toolbar-title>
         </router-link>
       </v-toolbar>
@@ -107,15 +59,6 @@
         <span class="ml-3">&copy; {{ year }}</span>
       </v-footer>
   </v-app>
-
-  <!-- <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> | 
-      <router-link to="/genres">Genres</router-link>
-    </div>
-    <router-view/>
-  </div> -->
 </template>
 
 <script>
@@ -127,6 +70,52 @@ export default {
     }
   },
   data: () => ({
+    title: 'Media Database',
+    navigation: [
+      {
+        title: 'Home',
+        icon: 'fas fa-home',
+        path: '/'
+      },
+      {
+        title: 'Music',
+        icon: 'fas fa-music',
+        path: '/music'
+      },
+      {
+        title: 'Movies',
+        icon: 'fas fa-film',
+        path: '/movies'
+      },
+      {
+        title: 'Video Games',
+        icon: 'fas fa-gamepad',
+        path: '/videogames'
+      },
+      {
+        title: 'Books',
+        icon: 'fas fa-book',
+        path: '/books'
+      },
+      {
+        title: 'Utilities',
+        icon: 'fas fa-tools',
+        path: '',
+        subitems: [
+          {
+            title: 'Media Types',
+            icon: 'fas fa-compact-disc',
+            path: '/mediatypes'
+          },
+          {
+            title: 'Genre',
+            icon: 'fas fa-theater-masks',
+            path: '/genres'
+          },
+        ]
+      },
+
+    ],
     drawer: false,
     year: new Date().getFullYear()
   })
