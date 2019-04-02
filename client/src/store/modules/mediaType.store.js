@@ -15,7 +15,7 @@ const mutations = {
     const index = state.mediaTypes.findIndex(mt => mt._id === mediaType._id);
     state.mediaTypes[index] = mediaType;
   },
-  DELTE_MEDIA_TYPE(state, mediaType) {
+  DELETE_MEDIA_TYPE(state, mediaType) {
     const index = state.mediaTypes.findIndex(mt => mt._id === mediaType._id);
     state.mediaTypes.splice(index, 1);
   }

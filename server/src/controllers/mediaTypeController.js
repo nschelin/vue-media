@@ -34,23 +34,22 @@ exports.update = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-	const title = req.body.mediaTypeTitle;
+	const mt = req.body;
 	let mediaType = await MediaType.findOne({
-		title: { $regex: new RegExp(`^${title}$`, 'i') }
+		title: { $regex: new RegExp(`^${mt.title}$`, 'i') }
 	});
 
 	if (mediaType) {
 		// genre exists
 		res.send({ error: { code: 409, message: 'already exists' } });
 	} else {
-		mediaType = await MediaType.create({ title });
+		mediaType = await MediaType.create({ title: mt.title });
 		res.send(mediaType);
 	}
 };
 
 exports.delete = async (req, res) => {
 	const id = req.params.id;
-	console.log(id);
 	MediaType.findByIdAndDelete(id, err => {
 		if (err) {
 			res.send({

@@ -43,7 +43,7 @@
       <v-card>
         <v-card-title primary-title>Add/Edit Genre</v-card-title>
         <v-container>
-          <GenreNewEdit v-model="genre" @updated="addUpdateGenre" @cancelled="dialog = false; resetGenre();" />
+          <GenreNewEdit v-model="genre" @updated="saveGenre" @cancelled="dialog = false; resetGenre();" />
         </v-container>
       </v-card>
     </v-dialog>
@@ -55,15 +55,13 @@
 import { mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      dialog: false,
-      genre: { 
-        title: '',
-        mediaTypes: []
-      },
-    };
-  },
+  data: () => ({
+    dialog: false,
+    genre: { 
+      title: '',
+      mediaTypes: []
+    },
+  }),
   computed: {
     ...mapState({
       genres: state => state.genres.genres,
@@ -90,7 +88,7 @@ export default {
       this.genre.mediaTypes = [];
     },
 
-    async addUpdateGenre(genre) {
+    async saveGenre(genre) {
       let result = null;
       if(genre._id) {
         result = await this.$store.dispatch('updateGenre', genre);

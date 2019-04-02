@@ -1,47 +1,26 @@
 <template>
   <div>
-    <v-list two-line>
+    <v-list>
 
-      <v-list-tile  v-for="(mt, index) in mediaTypes" :key="mt._id">
-        
-        <template v-if="editIndex === index">
-          <v-list-tile-content>
-            <v-text-field label="Media Type" color="white" v-model="mt.title"></v-text-field>
-          </v-list-tile-content>
-          <v-list-tile-action style="margin-right: 5px;">
-            <v-btn small outline color="blue" @click="">
-              <span class="white-text">Save</span>
-            </v-btn>
-          </v-list-tile-action>
-
-          <v-list-tile-action>
-            <v-btn small outline color="red" @click="editIndex = -1">
-              <span class="white-text">Cancel</span>
-            </v-btn>
-          </v-list-tile-action>
-        
-        </template>
-        <template v-else>
-
+      <v-list-tile  v-for="mediaType in mediaTypes" :key="mediaType._id">
           <v-list-tile-content>
             <v-list-tile-title class="pl-2 title">
-                {{ mt.title }}
+                {{ mediaType.title }}
             </v-list-tile-title>
           </v-list-tile-content>
 
           <v-list-tile-action style="margin-right: 5px;">
-            <v-btn small outline color="blue" @click="editIndex = index">
+            <v-btn small outline color="blue" @click="editMediaType(mediaType)">
               <span class="white-text">Edit</span>
             </v-btn>
           </v-list-tile-action>
 
           <v-list-tile-action>
-            <v-btn small outline color="red" @click="">
+            <v-btn small outline color="red" @click="deleteMediaType(mediaType)">
               <span class="white-text">Delete</span>
             </v-btn>
           </v-list-tile-action>
 
-        </template>
       </v-list-tile>
 
     </v-list>
@@ -58,13 +37,13 @@
             ref="ng"
             label="Media Type"
             color="white"
-            v-model="newMediaType"
+            v-model="mediaType.title"
             @keyup.enter=""
           ></v-text-field>
         </v-container>
         <v-card-actions>
           <div style>
-            <v-btn color="blue" @click="">Save</v-btn>
+            <v-btn color="blue" @click="saveMediaType()">Save</v-btn>
             <v-btn color="red" @click="dialog = false; newMediaType = ''">Cancel</v-btn>
           </div>
         </v-card-actions>
@@ -77,13 +56,12 @@
 import { mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      dialog: false,
-      newMediaType: '',
-      editIndex: -1,
-    };
-  },
+  data: () => ({
+    dialog: false,
+    mediaType: {
+        title: ''
+    },
+  }),
   computed: mapState({
       mediaTypes: state => state.mediaTypes.mediaTypes
   }),
@@ -95,7 +73,33 @@ export default {
         input.focus();
       });
     },
+    resetMediaType() {
+        delete this.mediaType._id;
+        this.mediaType.title = '';
+    },
+    async editMediaType (mediaType) {
+        this.mediaType = { ...mediaType };
+        this.showDialog();
+    },
+    async saveMediaType() {
+        let result = null;
+        if(!this.mediaType._id) {
+            result = await this.$store.dispatch('addMediaType', this.mediaType);
+        }
+        else {
+            result = await this.$store.dispatch('updateMediaType', this.mediaType);
+        }
 
+        if(result) {
+            this.dialog = false;
+            this.resetMediaType();
+        }
+    },
+    async deleteMediaType(mediaType) {
+    if(confirm(`Delete media type: ${mediaType.title}?`)){
+        this.$store.dispatch('deleteMediaType', mediaType);
+      }
+    }
   },
   async created() {
     await this.$store.dispatch('getMediaTypes');  
