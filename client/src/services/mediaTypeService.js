@@ -8,7 +8,6 @@ export default {
     return await axios.put(`/api/mediaType/${mediaType._id}`, mediaType);
   },
   async addMediaType(mediaType) {
-    console.log(mediaType);
     return await axios.post(`/api/mediaType`, mediaType);
   },
   async deleteMediaType(mediaType) {

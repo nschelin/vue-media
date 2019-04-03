@@ -62,6 +62,12 @@ export default {
       this.$emit('cancelled');
     }
   },
+  async created() {
+      await Promise.all([
+          this.$store.dispatch('getMediaTypes'),
+      ]);
+  },
+
 };
 </script>
 
