@@ -6,20 +6,27 @@ const mongoose = require('mongoose').set(
 );
 
 const MediaType = mongoose.model('MediaType');
+const Genre = mongoose.model('Genre');
 
 exports.list = async (req, res) => {
 	const mediaTypes = await MediaType.find({})
+		.lean() // returns plain JS object; mongoose objects are immutable
 		.select('title _id')
 		.sort({ title: 'asc' });
-	console.log(mediaTypes);
+
+	for (const mediaType of mediaTypes) {
+		const isUsed =
+			(await Genre.findOne({ mediaTypes: mediaType._id }).countDocuments()) > 0;
+
+		if (isUsed) mediaType.isUsed = isUsed;
+	}
+
 	res.send(mediaTypes);
 };
 
-exports.get = (req, res) => {
-	MediaType.findById(req.params.id, function(err, mediaType) {
-		console.log(mediaType);
-		res.send(mediaType);
-	});
+exports.get = async (req, res) => {
+	const mediaType = await MediaType.findById(req.params.id);
+	res.send(mediaType);
 };
 
 exports.update = async (req, res) => {

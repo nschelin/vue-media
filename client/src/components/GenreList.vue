@@ -42,9 +42,7 @@
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-card>
         <v-card-title primary-title>Add/Edit Genre</v-card-title>
-        <v-container>
-          <GenreNewEdit v-model="genre" @updated="saveGenre" @cancelled="dialog = false; resetGenre();" />
-        </v-container>
+        <GenreNewEdit v-model="genre" :dialog="dialog" @updated="saveGenre" @cancelled="dialog = false; resetGenre();" />
       </v-card>
     </v-dialog>
   </div>
@@ -67,7 +65,7 @@ export default {
       genres: state => state.genres.genres,
     }),
     sortedGenres() {
-      return this.genres.sort((a,b) => a.title - b.title);
+      return this.genres.sort((a,b) => a.title > b.title ? 1 : -1);
     } 
   },
   methods: {

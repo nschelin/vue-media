@@ -1,12 +1,14 @@
 <template>
   <div>
-    <v-list>
-
+    <v-list two-lines>
       <v-list-tile  v-for="mediaType in mediaTypes" :key="mediaType._id">
           <v-list-tile-content>
             <v-list-tile-title class="pl-2 title">
-                {{ mediaType.title }}
+                {{ mediaType.title }} 
             </v-list-tile-title>
+            <v-list-tile-sub-title v-if="mediaType.isUsed" class="pl-2">
+              <span  class="caption red--text"> Media Type is Currently in Use</span>
+            </v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-list-tile-action style="margin-right: 5px;">
@@ -16,9 +18,12 @@
           </v-list-tile-action>
 
           <v-list-tile-action>
-            <v-btn small outline color="red" @click="deleteMediaType(mediaType)">
-              <span class="white-text">Delete</span>
-            </v-btn>
+            <v-tooltip top>
+              <v-btn slot="activator" small outline color="red" :disabled="mediaType.isUsed" @click="deleteMediaType(mediaType)">
+                <span class="white-text">Delete</span>
+              </v-btn>
+              <span>Media Type is Currently in Use</span>
+            </v-tooltip>
           </v-list-tile-action>
 
       </v-list-tile>
@@ -30,30 +35,17 @@
     </v-btn>
 
     <v-dialog v-model="dialog" persistent max-width="500">
-      <v-card>
-        <v-card-title primary-title>Add Media Type</v-card-title>
-        <v-container>
-          <v-text-field
-            ref="ng"
-            label="Media Type"
-            color="white"
-            v-model="mediaType.title"
-            @keyup.enter=""
-          ></v-text-field>
-        </v-container>
-        <v-card-actions>
-          <div style>
-            <v-btn color="blue" @click="saveMediaType()">Save</v-btn>
-            <v-btn color="red" @click="dialog = false; newMediaType = ''">Cancel</v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
+        <v-card>
+          <v-card-title primary-title>Add Media Type</v-card-title>
+            <MediaTypeNewEdit v-model="mediaType" :dialog="dialog" @updated="saveMediaType" @cancelled="dialog = false; resetMediaType();" />
+        </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import MediaTypeNewEdit from './MediaTypeNewEdit';
 
 export default {
   data: () => ({
@@ -68,10 +60,10 @@ export default {
   methods: {
     showDialog() {
       this.dialog = true;
-      this.$nextTick(() => {
-        const input = this.$refs.ng.$el.querySelector('input');
-        input.focus();
-      });
+      // this.$nextTick(() => {
+      //   const input = this.$refs.ng.$el.querySelector('input');
+      //   input.focus();
+      // });
     },
     resetMediaType() {
         delete this.mediaType._id;
@@ -81,13 +73,13 @@ export default {
         this.mediaType = { ...mediaType };
         this.showDialog();
     },
-    async saveMediaType() {
+    async saveMediaType(mediaType) {
         let result = null;
-        if(!this.mediaType._id) {
-            result = await this.$store.dispatch('addMediaType', this.mediaType);
+        if(!mediaType._id) {
+            result = await this.$store.dispatch('addMediaType', mediaType);
         }
         else {
-            result = await this.$store.dispatch('updateMediaType', this.mediaType);
+            result = await this.$store.dispatch('updateMediaType', mediaType);
         }
 
         if(result) {
@@ -105,6 +97,7 @@ export default {
     await this.$store.dispatch('getMediaTypes');  
   },
   components: {
+    MediaTypeNewEdit
   }
 };
 </script>
