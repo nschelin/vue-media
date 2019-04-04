@@ -14,7 +14,7 @@ const albumBaseSchema = {
 	media: [
 		{
 			type: Schema.ObjectId,
-			ref: 'Media'
+			ref: 'MediaType'
 		}
 	],
 	artist: {

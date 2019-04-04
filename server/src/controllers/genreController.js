@@ -15,10 +15,9 @@ exports.list = async (req, res) => {
 	res.send(genres);
 };
 
-exports.get = (req, res) => {
-	Genre.findById(req.params.id, function(err, genre) {
-		res.send(genre);
-	});
+exports.get = async (req, res) => {
+	const genre = await Genre.findById(req.params.id);
+	res.send(genre);
 };
 
 exports.update = async (req, res) => {

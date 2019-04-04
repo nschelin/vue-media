@@ -229,6 +229,11 @@ async function createData() {
 			const album = await Album.findOne({ title: aa.title, year: aa.year });
 			if (album) {
 				insertAlbums.push(album);
+
+				const artist = await Artist.findOne({ title: a.title });
+				if (artist) {
+					await Album.findOneAndUpdate({ title: aa.title }, { artist });
+				}
 			}
 		}
 

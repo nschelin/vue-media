@@ -1,4 +1,5 @@
 import genreService from './genreService';
 import mediaTypeService from './mediaTypeService';
+import musicService from './musicService';
 
-export { genreService, mediaTypeService };
+export { genreService, mediaTypeService, musicService };

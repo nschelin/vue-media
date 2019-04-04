@@ -1,11 +1,23 @@
 <template>
     <div>
-        Music Component
+        <div>
+          <h1>Albums</h1>
+        </div>
+        <div>
+          <MusicList />
+        </div>
     </div>
 </template>
 
 <script>
-export default {};
+import MusicList from '../components/MusicList';
+
+export default {
+    name: 'music',
+    components: {
+        MusicList
+    }
+};
 </script>
 
 <style scoped>

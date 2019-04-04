@@ -115,9 +115,7 @@ export default {
     }
   },
   async created() {
-      await Promise.all([
-          this.$store.dispatch('getGenres'),
-      ]);
+    this.$store.dispatch('getGenres');
   },
   components: {
      GenreNewEdit
