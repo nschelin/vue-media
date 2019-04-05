@@ -1,16 +1,16 @@
-import axios from 'axios';
+import Api from '@/services/api';
 
 export default {
   async getGenres() {
-    return await axios.get('/api/genres');
+    return await Api().get('/genres');
   },
   async updateGenre(genre) {
-    return await axios.put(`/api/genre/${genre._id}`, genre);
+    return await Api().put(`/genre/${genre._id}`, genre);
   },
   async addGenre(genre) {
-    return await axios.post(`/api/genre`, genre);
+    return await Api().post(`/genre`, genre);
   },
   async deleteGenre(genre) {
-    return await axios.delete(`/api/genre/${genre._id}`);
+    return await Api().delete(`/genre/${genre._id}`);
   }
 };

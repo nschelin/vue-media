@@ -1,16 +1,16 @@
-import axios from 'axios';
+import Api from '@/services/api';
 
 export default {
   async getAlbums() {
-    return await axios.get('/api/albums');
+    return await Api().get('/albums');
   },
   async updateAlbum(album) {
-    return await axios.put(`/api/album/${album._id}`, album);
+    return await Api().put(`/album/${album._id}`, album);
   },
   async addAlbum(album) {
-    return await axios.post(`/api/album`, album);
+    return await Api().post(`/album`, album);
   },
   async deleteAlbum(album) {
-    return await axios.delete(`/api/album/${album._id}`);
+    return await Api().delete(`/album/${album._id}`);
   }
 };

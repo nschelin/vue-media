@@ -1,16 +1,16 @@
-import axios from 'axios';
+import Api from '@/services/api';
 
 export default {
   async getMediaTypes() {
-    return await axios.get('/api/mediaTypes');
+    return await Api().get('/mediaTypes');
   },
   async updateMediaType(mediaType) {
-    return await axios.put(`/api/mediaType/${mediaType._id}`, mediaType);
+    return await Api().put(`/mediaType/${mediaType._id}`, mediaType);
   },
   async addMediaType(mediaType) {
-    return await axios.post(`/api/mediaType`, mediaType);
+    return await Api().post(`/mediaType`, mediaType);
   },
   async deleteMediaType(mediaType) {
-    return await axios.delete(`/api/mediaType/${mediaType._id}`);
+    return await Api().delete(`/mediaType/${mediaType._id}`);
   }
 };
