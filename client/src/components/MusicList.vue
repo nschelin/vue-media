@@ -4,7 +4,7 @@
             <v-list-tile v-for="album in albums" :key="album._id">
                 <v-list-tile-content>
                     <v-list-tile-title class="pl-2 title">
-                        {{ album.title }}
+                        {{ album.title }} ({{ album.model }})
                     </v-list-tile-title>
                     <v-list-tile-sub-title class="pl-2">
                         {{ album.artist.title }}

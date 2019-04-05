@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { BaseSchema } = require('./baseschema');
+const { BaseSchema, preSave } = require('./baseschema');
 
 const albumBaseSchema = {
 	title: String,
@@ -31,5 +31,7 @@ const albumBaseSchema = {
 };
 
 const albumSchema = new Schema(albumBaseSchema, { collection: 'albums' });
+albumSchema.pre('save', preSave);
+
 const Album = mongoose.model('Album', albumSchema);
 module.exports = { Album };

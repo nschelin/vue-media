@@ -12,6 +12,13 @@ const BaseSchema = {
 		type: Date,
 		required: true,
 		default: Date.now
-	}
+	},
+	model: String
 };
-module.exports = { BaseSchema };
+
+function preSave(next) {
+	this.model = this.constructor.modelName;
+	next();
+}
+
+module.exports = { BaseSchema, preSave };

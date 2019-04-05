@@ -9,7 +9,7 @@ const Album = mongoose.model('Album');
 
 exports.albumList = async (req, res) => {
 	const albums = await Album.find({})
-		.select('genres title year artist')
+		//.select('genres title year artist')
 		.populate('genres', '_id title')
 		.populate('artist', '_id title')
 		.sort({ title: 'asc' });

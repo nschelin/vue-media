@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const { BaseSchema } = require('./baseschema');
+const { BaseSchema, preSave } = require('./baseschema');
 
 const artistBaseSchema = {
 	title: String,
@@ -31,5 +31,7 @@ const artistBaseSchema = {
 };
 
 const artistSchema = new Schema(artistBaseSchema, { collection: 'artists' });
+artistSchema.pre('save', preSave);
+
 const Artist = mongoose.model('Artist', artistSchema);
 module.exports = { Artist };
