@@ -1,12 +1,12 @@
 <template>
+  <div>
     <div>
-        <div>
-          <h1>Genres</h1>
-        </div>
-        <div>
-          <GenreList />
-        </div>
+      <h1>Genres</h1>
     </div>
+    <div>
+      <GenreList />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -20,5 +20,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

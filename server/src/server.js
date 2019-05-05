@@ -23,8 +23,13 @@ const dbOptions = {
 };
 
 mongoose.connect(process.env.DATABASE, dbOptions, err => {
-	if (err) throw err;
-	console.log(chalk.cyan('Connected to Db'));
+	if (err) {
+		console.log(
+			chalk.bgRed.yellow('Unable to Connect to Db - is it running???')
+		);
+		throw err;
+	}
+	console.log(chalk.yellow('Connected to Db'));
 });
 
 //require('./models/supportModels');

@@ -1,24 +1,23 @@
 <template>
+  <div>
     <div>
-        <div>
-          <h1>Albums</h1>
-        </div>
-        <div>
-          <MusicList />
-        </div>
+      <h1>Albums</h1>
     </div>
+    <div>
+      <MusicList />
+    </div>
+  </div>
 </template>
 
 <script>
 import MusicList from '../components/MusicList';
 
 export default {
-    name: 'music',
-    components: {
-        MusicList
-    }
+  name: 'music',
+  components: {
+    MusicList
+  }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

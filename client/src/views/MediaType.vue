@@ -1,12 +1,12 @@
 <template>
+  <div>
     <div>
-        <div>
-          <h1>Media Types</h1>
-        </div>
-        <div>
-          <MediaTypeList />
-        </div>
+      <h1>Media Types</h1>
     </div>
+    <div>
+      <MediaTypeList />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -17,8 +17,7 @@ export default {
   components: {
     MediaTypeList
   }
-};</script>
+};
+</script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
