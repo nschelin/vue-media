@@ -4,6 +4,7 @@ export default () => {
   const api = axios.create({
     baseURL: '/api'
   });
+
   api.interceptors.request.use(
     config => {
       // show loading?
@@ -14,6 +15,7 @@ export default () => {
       return Promise.reject(error);
     }
   );
+
   api.interceptors.response.use(
     config => {
       // show loading?
